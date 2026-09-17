@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Redirection...</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: system-ui, sans-serif;
+      background: #0a0a0a;
+      color: #ffffff;
+      text-align: center;
+      padding: 24px;
+      box-sizing: border-box;
+    }
+  </style>
+</head>
+<body>
+  <p id="msg">Redirection en cours...</p>
+  <script>
+    // L'identifiant de l'emplacement vient du QR code lui-même,
+    // via l'adresse: https://tonpseudo.github.io/ton-repo/?id=1
+    var params = new URLSearchParams(window.location.search);
+    var id = params.get('id');
+
+    fetch('redirects.json?v=' + Date.now())
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        var entry = data[id];
+        if (entry && entry.url) {
+          window.location.replace(entry.url);
+        } else {
+          document.getElementById('msg').textContent =
+            'Cet emplacement n\u2019est pas encore actif. Merci de repasser bientôt !';
+        }
+      })
+      .catch(function () {
+        document.getElementById('msg').textContent =
+          'Erreur de chargement. Réessaie plus tard.';
+      });
+  </script>
+</body>
+</html>
