@@ -3,56 +3,36 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Laisser un avis</title>
+  <title>Redirection...</title>
   <style>
-    * { box-sizing: border-box; }
     body {
       margin: 0;
-      min-height: 100vh;
+      height: 100vh;
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
-      font-family: system-ui, -apple-system, sans-serif;
+      font-family: system-ui, sans-serif;
       background: #0a0a0a;
       color: #ffffff;
       text-align: center;
-      padding: 32px 24px;
+      padding: 24px;
+      box-sizing: border-box;
     }
-    .stars { font-size: 32px; margin-bottom: 8px; letter-spacing: 4px; }
-    h1 { font-size: 20px; margin: 0 0 10px; font-weight: 800; }
-    p.sub { font-size: 13px; color: #b8b8b8; margin: 0 0 26px; line-height: 1.5; max-width: 280px; }
-    a.btn {
-      display: inline-block;
-      background: #ffffff;
-      color: #0a0a0a;
-      font-weight: 800;
-      font-size: 17px;
-      padding: 16px 32px;
-      border-radius: 999px;
-      text-decoration: none;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.35);
-    }
-    a.btn:active { transform: scale(0.98); }
-    p.hint { margin-top: 18px; font-size: 12px; color: #9a9a9a; max-width: 280px; line-height: 1.5; }
   </style>
 </head>
 <body>
-  <div id="content">
-    <p style="color:#c9c9c9;">Chargement...</p>
-  </div>
-
+  <p id="msg">Redirection en cours...</p>
   <script>
     // ==========================================================
     // Pour ajouter/modifier un emplacement : modifie UNIQUEMENT
-    // la ligne correspondante ci-dessous (placeid uniquement),
-    // puis "Commit changes" sur GitHub. Rien d'autre à toucher.
+    // la ligne correspondante ci-dessous, puis "Commit changes"
+    // sur GitHub. Rien d'autre à toucher.
     // ==========================================================
-    var PLACE_IDS = {
-      "1": "ChIJVSmoFfhj5kcRyUvZAzezR30",
-      "2": "ChIJk7sgxXBj5kcR5dtPYCuQB18",
-      "3": "ChIJsx_gVKRj5kcRAo-poM6iCN0",
-      "4": "ChIJnUBdI4Zi5kcRzBhQuBo8dKs",
+    var REDIRECTS = {
+      "1": "https://search.google.com/local/writereview?placeid=ChIJVSmoFfhj5kcRyUvZAzezR30",
+      "2": "https://search.google.com/local/writereview?placeid=ChIJk7sgxXBj5kcR5dtPYCuQB18",
+      "3": "https://search.google.com/local/writereview?placeid=ChIJsx_gVKRj5kcRAo-poM6iCN0",
+      "4": "https://search.google.com/local/writereview?placeid=ChIJnUBdI4Zi5kcRzBhQuBo8dKs",
       "5": null, "6": null, "7": null, "8": null, "9": null, "10": null,
       "11": null, "12": null, "13": null, "14": null, "15": null,
       "16": null, "17": null, "18": null, "19": null, "20": null
@@ -60,24 +40,13 @@
 
     var params = new URLSearchParams(window.location.search);
     var id = params.get('id');
-    var placeId = PLACE_IDS[id];
-    var content = document.getElementById('content');
+    var url = REDIRECTS[id];
 
-    if (placeId) {
-      // On envoie vers l'appli Google Maps (via un lien universel)
-      // plutôt que vers le site web de Google : ça évite le bug
-      // de boucle de connexion connu sur Safari/iPhone, car l'appli
-      // a déjà sa propre session, sans passer par le navigateur.
-      var mapsUrl = 'https://www.google.com/maps/place/?q=place_id:' + placeId;
-      content.innerHTML =
-        '<div class="stars">\u2b50\u2b50\u2b50\u2b50\u2b50</div>' +
-        '<h1>Merci de votre visite !</h1>' +
-        '<p class="sub">Aidez-nous en laissant un avis Google \u2014 \u00e7a prend 30 secondes.</p>' +
-        '<a class="btn" href="' + mapsUrl + '" rel="noopener">Ouvrir la fiche Google</a>' +
-        '<p class="hint">Une fois la fiche ouverte, appuyez sur \u00ab Avis \u00bb puis sur l\u2019ic\u00f4ne crayon \u2709\ufe0f pour \u00e9crire votre avis.</p>';
+    if (url) {
+      window.location.replace(url);
     } else {
-      content.innerHTML =
-        '<p>Cet emplacement n\u2019est pas encore actif. Merci de repasser bient\u00f4t !</p>';
+      document.getElementById('msg').textContent =
+        'Cet emplacement n\u2019est pas encore actif. Merci de repasser bientôt !';
     }
   </script>
 </body>
