@@ -23,26 +23,44 @@
 <body>
   <p id="msg">Redirection en cours...</p>
   <script>
-    // L'identifiant de l'emplacement vient du QR code lui-même,
-    // via l'adresse: https://tonpseudo.github.io/ton-repo/?id=1
+    // ==========================================================
+    // Pour ajouter/modifier un emplacement : modifie UNIQUEMENT
+    // la ligne correspondante ci-dessous, puis "Commit changes"
+    // sur GitHub. Rien d'autre à toucher.
+    // ==========================================================
+    var REDIRECTS = {
+      "1": "https://search.google.com/local/writereview?placeid=ChIJVSmoFfhj5kcRyUvZAzezR30",
+      "2": "https://search.google.com/local/writereview?placeid=ChIJk7sgxXBj5kcR5dtPYCuQB18",
+      "3": "https://search.google.com/local/writereview?placeid=ChIJsx_gVKRj5kcRAo-poM6iCN0",
+      "4": "https://search.google.com/local/writereview?placeid=ChIJnUBdI4Zi5kcRzBhQuBo8dKs",
+      "5": null,
+      "6": null,
+      "7": null,
+      "8": null,
+      "9": null,
+      "10": null,
+      "11": null,
+      "12": null,
+      "13": null,
+      "14": null,
+      "15": null,
+      "16": null,
+      "17": null,
+      "18": null,
+      "19": null,
+      "20": null
+    };
+
     var params = new URLSearchParams(window.location.search);
     var id = params.get('id');
+    var url = REDIRECTS[id];
 
-    fetch('redirects.json?v=' + Date.now())
-      .then(function (r) { return r.json(); })
-      .then(function (data) {
-        var entry = data[id];
-        if (entry && entry.url) {
-          window.location.replace(entry.url);
-        } else {
-          document.getElementById('msg').textContent =
-            'Cet emplacement n\u2019est pas encore actif. Merci de repasser bientôt !';
-        }
-      })
-      .catch(function () {
-        document.getElementById('msg').textContent =
-          'Erreur de chargement. Réessaie plus tard.';
-      });
+    if (url) {
+      window.location.replace(url);
+    } else {
+      document.getElementById('msg').textContent =
+        'Cet emplacement n\u2019est pas encore actif. Merci de repasser bientôt !';
+    }
   </script>
 </body>
 </html>
