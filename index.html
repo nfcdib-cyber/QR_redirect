@@ -3,25 +3,44 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Redirection...</title>
+  <title>Laisser un avis</title>
   <style>
+    * { box-sizing: border-box; }
     body {
       margin: 0;
-      height: 100vh;
+      min-height: 100vh;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      font-family: system-ui, sans-serif;
+      font-family: system-ui, -apple-system, sans-serif;
       background: #0a0a0a;
       color: #ffffff;
       text-align: center;
-      padding: 24px;
-      box-sizing: border-box;
+      padding: 32px 24px;
     }
+    .stars { font-size: 32px; margin-bottom: 8px; letter-spacing: 4px; }
+    h1 { font-size: 20px; margin: 0 0 28px; font-weight: 800; }
+    a.btn {
+      display: inline-block;
+      background: #ffffff;
+      color: #0a0a0a;
+      font-weight: 800;
+      font-size: 17px;
+      padding: 16px 32px;
+      border-radius: 999px;
+      text-decoration: none;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.35);
+    }
+    a.btn:active { transform: scale(0.98); }
+    p.hint { margin-top: 18px; font-size: 12px; color: #9a9a9a; }
   </style>
 </head>
 <body>
-  <p id="msg">Redirection en cours...</p>
+  <div id="content">
+    <p style="color:#c9c9c9;">Chargement...</p>
+  </div>
+
   <script>
     // ==========================================================
     // Pour ajouter/modifier un emplacement : modifie UNIQUEMENT
@@ -33,33 +52,29 @@
       "2": "https://search.google.com/local/writereview?placeid=ChIJk7sgxXBj5kcR5dtPYCuQB18",
       "3": "https://search.google.com/local/writereview?placeid=ChIJsx_gVKRj5kcRAo-poM6iCN0",
       "4": "https://search.google.com/local/writereview?placeid=ChIJnUBdI4Zi5kcRzBhQuBo8dKs",
-      "5": null,
-      "6": null,
-      "7": null,
-      "8": null,
-      "9": null,
-      "10": null,
-      "11": null,
-      "12": null,
-      "13": null,
-      "14": null,
-      "15": null,
-      "16": null,
-      "17": null,
-      "18": null,
-      "19": null,
-      "20": null
+      "5": null, "6": null, "7": null, "8": null, "9": null, "10": null,
+      "11": null, "12": null, "13": null, "14": null, "15": null,
+      "16": null, "17": null, "18": null, "19": null, "20": null
     };
 
     var params = new URLSearchParams(window.location.search);
     var id = params.get('id');
     var url = REDIRECTS[id];
+    var content = document.getElementById('content');
 
     if (url) {
-      window.location.replace(url);
+      // Détection simple : sur iPhone/Safari, une redirection automatique
+      // par script se fait souvent bloquer (bug connu Safari + Google).
+      // On affiche donc un bouton à toucher, qui fonctionne partout,
+      // au lieu d'une redirection automatique.
+      content.innerHTML =
+        '<div class="stars">\u2b50\u2b50\u2b50\u2b50\u2b50</div>' +
+        '<h1>Merci de votre visite !</h1>' +
+        '<a class="btn" href="' + url + '" rel="noopener">Laisser un avis Google</a>' +
+        '<p class="hint">Vous serez peut-\u00eatre invit\u00e9(e) \u00e0 vous connecter \u00e0 votre compte Google.</p>';
     } else {
-      document.getElementById('msg').textContent =
-        'Cet emplacement n\u2019est pas encore actif. Merci de repasser bientôt !';
+      content.innerHTML =
+        '<p>Cet emplacement n\u2019est pas encore actif. Merci de repasser bient\u00f4t !</p>';
     }
   </script>
 </body>
